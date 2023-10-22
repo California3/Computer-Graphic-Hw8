@@ -12,12 +12,22 @@ namespace CGL {
     Rope::Rope(Vector2D start, Vector2D end, int num_nodes, float node_mass, float k, vector<int> pinned_nodes)
     {
         // TODO (Task 1.2): Create a rope starting at `start`, ending at `end`, and containing `num_nodes` nodes.
+        for (int i = 0; i < num_nodes; i++) {
+            // Calculate the position of the current node
+            Vector2D position = start + (end - start) * (float) i / (float) (num_nodes - 1);
+            // push initial mass, set pinned to false by default.
+            masses.push_back(new Mass(position, node_mass, false));
+            // push spring, if not the first node.
+            if (i > 0) {
+                springs.push_back(new Spring(masses[i - 1], masses[i], k));
+            }
+        }
 
+        // Comment-in this part when you implement the constructor
+       for (auto &i : pinned_nodes) {
+            masses[i]->pinned = true;
+       }
 
-//        Comment-in this part when you implement the constructor
-//        for (auto &i : pinned_nodes) {
-//            masses[i]->pinned = true;
-//        }
     }
 
     void Rope::simulateEuler(float delta_t, Vector2D gravity)
