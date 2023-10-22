@@ -47,6 +47,7 @@ void Application::render() {
       rope = ropeVerlet;
     }
 
+
     glBegin(GL_POINTS);
 
     for (auto &m : rope->masses) {
